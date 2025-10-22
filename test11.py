@@ -15,14 +15,9 @@ Usage:
 import logging
 import os
 
-import jax
 from absl import app, flags
 
 # Initialize JAX distributed processing
-
-from utils.data_util import compute_latent_dataset
-from utils.fid_util import compute_fid_stats
-from utils.logging_util import log_for_0
 
 FLAGS = flags.FLAGS
 flags.DEFINE_string('config', 'configs/default.py', 'Path to config file')
