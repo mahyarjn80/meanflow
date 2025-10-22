@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Configuration for data preparation
-export IMAGENET_ROOT="YOUR_IMAGENET_ROOT"
-export OUTPUT_DIR="YOUR_OUTPUT_DIR"
-export LOG_DIR="YOUR_LOG_DIR"
+export IMAGENET_ROOT="/orcd/datasets/legacy/001/imagenet/images_complete/ilsvrc"
+export OUTPUT_DIR="/home/mahyarjn/meanflow/output"
+export LOG_DIR="/home/mahyarjn/meanflow/logs"
 
 # Validate required environment variables
 if [ "$IMAGENET_ROOT" = "YOUR_IMAGENET_ROOT" ] || [ "$OUTPUT_DIR" = "YOUR_OUTPUT_DIR" ] || [ "$LOG_DIR" = "YOUR_LOG_DIR" ]; then
