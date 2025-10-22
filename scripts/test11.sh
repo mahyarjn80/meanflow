@@ -1,17 +1,23 @@
 #!/bin/bash
 
-# Configuration for data preparation
-export IMAGENET_ROOT="/orcd/datasets/legacy/001/imagenet/images_complete/ilsvrc"
-export OUTPUT_DIR="/home/mahyarjn/meanflow/output"
-export LOG_DIR="/home/mahyarjn/meanflow/logs"
+# Configuration for data preparation (can be overridden via env before calling this script)
+export IMAGENET_ROOT="${IMAGENET_ROOT:-/orcd/datasets/legacy/001/imagenet/images_complete/ilsvrc}"
+export OUTPUT_DIR="${OUTPUT_DIR:-/home/mahyarjn/meanflow/output}"
+export LOG_DIR="${LOG_DIR:-/home/mahyarjn/meanflow/logs}"
 
-# Validate required environment variables
-if [ "$IMAGENET_ROOT" = "YOUR_IMAGENET_ROOT" ] || [ "$OUTPUT_DIR" = "YOUR_OUTPUT_DIR" ] || [ "$LOG_DIR" = "YOUR_LOG_DIR" ]; then
-    echo "ERROR: Please update the environment variables at the top of this script:"
-    echo "  - IMAGENET_ROOT: Path to your ImageNet dataset"
-    echo "  - OUTPUT_DIR: Path where to save the processed data"
-    echo "  - LOG_DIR: Path where to save logs"
+# Validate required paths
+if [ ! -d "$IMAGENET_ROOT" ]; then
+    echo "ERROR: IMAGENET_ROOT does not exist or is not a directory: $IMAGENET_ROOT"
+    echo "Please set IMAGENET_ROOT to the folder that contains 'train' and 'val' subfolders."
     exit 1
+fi
+
+if [ ! -d "$OUTPUT_DIR" ]; then
+    mkdir -p "$OUTPUT_DIR" || { echo "ERROR: Failed to create OUTPUT_DIR: $OUTPUT_DIR"; exit 1; }
+fi
+
+if [ ! -d "$LOG_DIR" ]; then
+    mkdir -p "$LOG_DIR" || { echo "ERROR: Failed to create LOG_DIR: $LOG_DIR"; exit 1; }
 fi
 
 export BATCH_SIZE=128
@@ -22,8 +28,8 @@ export salt=`head /dev/urandom | tr -dc a-z0-9 | head -c6`
 export JOBNAME=prepare_data_${now}_${salt}_$1
 export LOG_DIR=$LOG_DIR/$USER/$JOBNAME
 
-mkdir -p ${LOG_DIR}
-chmod 777 -R ${LOG_DIR}
+mkdir -p "${LOG_DIR}"
+chmod 777 -R "${LOG_DIR}"
 
 # Image size configuration (common sizes: 256, 512, 1024)
 # Corresponding latent sizes will be: 32x32, 64x64, 128x128
@@ -51,16 +57,16 @@ if [ "$COMPUTE_FID" = "True" ]; then
 fi
 echo "=============================================="
 
-python3 prepare_dataset.py \
-    --imagenet_root=\"$IMAGENET_ROOT\" \
-    --output_dir=\"$OUTPUT_DIR\" \
-    --batch_size=$BATCH_SIZE \
-    --vae_type=\"$VAE_TYPE\" \
-    --image_size=$IMAGE_SIZE \
-    --compute_latent=$COMPUTE_LATENT \
-    --compute_fid=$COMPUTE_FID \
+python3 test11.py \
+    --imagenet_root="$IMAGENET_ROOT" \
+    --output_dir="$OUTPUT_DIR" \
+    --batch_size="$BATCH_SIZE" \
+    --vae_type="$VAE_TYPE" \
+    --image_size="$IMAGE_SIZE" \
+    --compute_latent="$COMPUTE_LATENT" \
+    --compute_fid="$COMPUTE_FID" \
     --overwrite=False \
-    2>&1 | tee -a $LOG_DIR/output.log
+    2>&1 | tee -a "$LOG_DIR/output.log"
 
 echo "=============================================="
 echo "Data preparation completed!"
