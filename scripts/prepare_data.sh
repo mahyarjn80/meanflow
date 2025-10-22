@@ -22,8 +22,8 @@ export salt=`head /dev/urandom | tr -dc a-z0-9 | head -c6`
 export JOBNAME=prepare_data_${now}_${salt}_$1
 export LOG_DIR=$LOG_DIR/$USER/$JOBNAME
 
-sudo mkdir -p ${LOG_DIR}
-sudo chmod 777 -R ${LOG_DIR}
+mkdir -p ${LOG_DIR}
+chmod 777 -R ${LOG_DIR}
 
 # Image size configuration (common sizes: 256, 512, 1024)
 # Corresponding latent sizes will be: 32x32, 64x64, 128x128
