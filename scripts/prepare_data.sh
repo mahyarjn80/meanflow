@@ -57,7 +57,7 @@ if [ "$COMPUTE_FID" = "True" ]; then
 fi
 echo "=============================================="
 
-python3 test11.py \
+python3 prepare_dataset.py \
     --imagenet_root="$IMAGENET_ROOT" \
     --output_dir="$OUTPUT_DIR" \
     --batch_size="$BATCH_SIZE" \

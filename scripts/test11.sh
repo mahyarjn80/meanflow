@@ -60,12 +60,8 @@ echo "=============================================="
 python3 test11.py \
     --imagenet_root="$IMAGENET_ROOT" \
     --output_dir="$OUTPUT_DIR" \
-    --batch_size="$BATCH_SIZE" \
-    --vae_type="$VAE_TYPE" \
     --image_size="$IMAGE_SIZE" \
-    --compute_latent="$COMPUTE_LATENT" \
-    --compute_fid="$COMPUTE_FID" \
-    --overwrite=False \
+    --compute_fid=True \
     2>&1 | tee -a "$LOG_DIR/output.log"
 
 echo "=============================================="
