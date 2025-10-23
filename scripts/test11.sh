@@ -61,7 +61,6 @@ python3 test11.py \
     --imagenet_root="$IMAGENET_ROOT" \
     --output_dir="$OUTPUT_DIR" \
     --image_size="$IMAGE_SIZE" \
-    --compute_fid=True \
     2>&1 | tee -a "$LOG_DIR/output.log"
 
 echo "=============================================="
